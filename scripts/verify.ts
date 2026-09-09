@@ -28,6 +28,13 @@ const VERIFY_SLUG_URL = 'https://www.alignandacquire.com/api/verify-slug'
 /** Identity markers of the shipped sample config. Any of these in the identity fields means the template is unfilled. */
 const SAMPLE_MARKERS = ['sample', 'example', 'template', 'EXAMPLE_']
 
+/**
+ * The shipped sample business by name. Scanned across site.config.ts AND every
+ * content file, so an agent cannot fill the five identity fields and still ship
+ * the sample services, FAQs, or body copy under a real client's name.
+ */
+const SAMPLE_TOKENS = ['sample-lawn-care', 'Sample Lawn Care']
+
 const PLACEHOLDER_TOKENS = ['TODO', 'TKTK', 'Lorem', '[CITY]', '[SERVICE]', 'EXAMPLE_', 'your business', 'Insert ']
 
 /** Every schema.org type this template can legitimately emit. Anything else is rejected, not warned about. */
@@ -189,11 +196,18 @@ async function run() {
       )
       if (sampleImages.length) problems.push(`config still references sample images: ${[...new Set(sampleImages)].join(', ')}`)
     }
+    for (const file of [CONFIG_FILE, ...walk(CONTENT, '.mdx')]) {
+      const text = fs.readFileSync(file, 'utf8')
+      for (const token of SAMPLE_TOKENS) {
+        const idx = text.indexOf(token)
+        if (idx !== -1) problems.push(`${path.relative(ROOT, file)}:${lineOf(text, idx)} still contains "${token}"`)
+      }
+    }
     record(
       2,
       'businessSlug and identity are filled in (not the template sample)',
       problems.length === 0,
-      problems.length ? `The template has not been filled in. ${problems.join('. ')}.` : `slug "${slug}"`,
+      problems.length ? `The template has not been filled in. ${problems.slice(0, 12).join('. ')}.` : `slug "${slug}"`,
     )
   }
 
