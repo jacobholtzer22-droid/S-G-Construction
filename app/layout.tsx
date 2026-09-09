@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import MobileCallBar from '@/components/MobileCallBar'
 import { config } from '@/lib/config'
 import { buildTitle, renderTitle, TITLE_TEMPLATE } from '@/lib/seo'
 import theme from '@/theme'
+import { bodyFont, headingFont } from './fonts'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -15,15 +17,6 @@ export const metadata: Metadata = {
   },
   applicationName: config.displayName,
   robots: { index: true, follow: true },
-}
-
-function googleFontsHref(): string {
-  const families = [theme.fonts.heading, theme.fonts.body].map((f) => {
-    const name = f.family.trim().replace(/\s+/g, '+')
-    const weights = [...new Set(f.weights)].sort((a, b) => a - b).join(';')
-    return `family=${name}:wght@${weights}`
-  })
-  return `https://fonts.googleapis.com/css2?${families.join('&')}&display=swap`
 }
 
 const cssVars = {
@@ -39,23 +32,17 @@ const cssVars = {
   '--c-line': theme.palette.line,
   '--c-on-primary': theme.palette.onPrimary,
   '--c-on-accent': theme.palette.onAccent,
-  '--font-heading': `'${theme.fonts.heading.family}'`,
-  '--font-body': `'${theme.fonts.body.family}'`,
   '--radius': `${theme.radius}rem`,
-} as React.CSSProperties
+  '--shadow': theme.shadow,
+} as CSSProperties
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" style={cssVars}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href={googleFontsHref()} />
-      </head>
-      <body className="flex min-h-screen flex-col">
+    <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`} style={cssVars}>
+      <body className="flex min-h-screen flex-col pb-16 md:pb-0">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-site focus:bg-surface focus:px-3 focus:py-2"
         >
           Skip to content
         </a>
@@ -64,6 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
         <Footer />
+        <MobileCallBar />
       </body>
     </html>
   )

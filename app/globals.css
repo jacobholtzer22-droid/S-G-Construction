@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Palette and fonts are injected as CSS variables by app/layout.tsx from theme.ts. */
+/* Palette, radius, and shadow are injected as CSS variables by app/layout.tsx
+   from theme.ts. Fonts come from app/fonts.ts via next/font. */
 
 @layer base {
   html {
+    /* 17px body text at the default browser size. Tailwind's rem scale follows. */
+    font-size: 106.25%;
     scroll-behavior: smooth;
   }
   body {
@@ -18,7 +21,7 @@
     @apply font-heading;
   }
   :focus-visible {
-    outline: 2px solid var(--c-primary);
+    outline: 2px solid var(--c-accent);
     outline-offset: 2px;
   }
   summary::-webkit-details-marker {
