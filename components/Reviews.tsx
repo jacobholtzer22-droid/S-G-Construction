@@ -8,11 +8,11 @@ import { config } from '@/lib/config'
 export default function Reviews() {
   if (config.reviews.length === 0) return null
   return (
-    <section className="mx-auto max-w-page px-4 py-14 sm:px-6">
+    <section className="mx-auto max-w-page px-4 py-16 md:py-24 sm:px-6">
       <h2 className="font-heading text-3xl font-bold text-primary-dark">What Customers Say</h2>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {config.reviews.map((r) => (
-          <blockquote key={`${r.author}-${r.url}`} className="rounded-[var(--radius)] border border-line bg-surface p-6">
+          <blockquote key={`${r.author}-${r.url}`} className="rounded-site border border-line bg-surface p-6">
             <p className="text-sm font-semibold text-accent-dark" aria-label={`${r.rating} out of 5 stars`}>
               {'★'.repeat(Math.round(r.rating))}
             </p>

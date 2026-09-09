@@ -56,19 +56,19 @@ export default async function ServicePage({ params }: { params: { slug: string }
         <article className="lg:col-span-2">{content}</article>
         <aside className="space-y-6">
           {service.image && (
-            <div className="overflow-hidden rounded-[var(--radius)]">
+            <div className="overflow-hidden rounded-site">
               <Img name={service.image} sizes="(min-width: 1024px) 33vw, 100vw" className="h-auto w-full" />
             </div>
           )}
           {service.priceFrom !== null && (
-            <div className="rounded-[var(--radius)] border border-line bg-surface p-6">
+            <div className="rounded-site border border-line bg-surface p-6">
               <p className="text-sm font-semibold uppercase tracking-wide text-muted">Pricing</p>
               <p className="mt-2 font-heading text-3xl font-bold text-primary-dark">From ${service.priceFrom}</p>
               {service.priceNote && <p className="mt-1 text-sm text-muted">{service.priceNote}</p>}
             </div>
           )}
           {service.priceFrom === null && service.priceNote && (
-            <div className="rounded-[var(--radius)] border border-line bg-surface p-6">
+            <div className="rounded-site border border-line bg-surface p-6">
               <p className="text-sm font-semibold uppercase tracking-wide text-muted">Pricing</p>
               <p className="mt-2 text-sm text-ink">Pricing is {service.priceNote}.</p>
             </div>

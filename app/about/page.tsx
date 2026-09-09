@@ -33,7 +33,7 @@ export default async function AboutPage() {
         </article>
         {config.images.about && (
           <aside>
-            <div className="overflow-hidden rounded-[var(--radius)]">
+            <div className="overflow-hidden rounded-site">
               <Img name={config.images.about} sizes="(min-width: 1024px) 33vw, 100vw" className="h-auto w-full" />
             </div>
           </aside>

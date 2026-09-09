@@ -4,7 +4,7 @@ import Phone from './Phone'
 /** Phone always; email, address, and hours only when known. */
 export default function ContactDetails() {
   return (
-    <div className="rounded-[var(--radius)] border border-line bg-surface p-6 text-sm">
+    <div className="rounded-site border border-line bg-surface p-6 text-sm">
       <h2 className="font-heading text-xl font-semibold text-primary-dark">Reach {config.displayName}</h2>
       <dl className="mt-4 space-y-3">
         <div>

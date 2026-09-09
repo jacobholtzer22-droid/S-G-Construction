@@ -27,7 +27,7 @@ export default function Header() {
           <Phone className="hidden text-sm text-primary-dark sm:inline" />
           <Link
             href="/contact"
-            className="rounded-[var(--radius)] bg-accent px-4 py-2 text-sm font-semibold text-on-accent hover:bg-accent-dark"
+            className="rounded-site bg-accent px-4 py-2 text-sm font-semibold text-on-accent hover:bg-accent-dark"
           >
             Free Quote
           </Link>

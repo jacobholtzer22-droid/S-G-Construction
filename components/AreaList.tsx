@@ -5,7 +5,7 @@ export default function AreaList({ heading = 'Areas We Serve', exclude }: { head
   const areas = config.serviceAreas.filter((a) => a.slug !== exclude)
   if (areas.length === 0) return null
   return (
-    <section id="areas" className="mx-auto max-w-page px-4 py-14 sm:px-6">
+    <section id="areas" className="mx-auto max-w-page px-4 py-16 md:py-24 sm:px-6">
       <h2 className="font-heading text-3xl font-bold text-primary-dark">{heading}</h2>
       <ul className="mt-6 flex flex-wrap gap-3">
         {areas.map((a) => (
