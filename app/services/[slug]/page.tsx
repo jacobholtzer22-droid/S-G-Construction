@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import CtaBand from '@/components/CtaBand'
+import EstimateCard from '@/components/EstimateCard'
 import FaqAccordion from '@/components/FaqAccordion'
 import Img from '@/components/Img'
 import JsonLd from '@/components/JsonLd'
@@ -50,7 +51,11 @@ export default async function ServicePage({ params }: { params: { slug: string }
       <JsonLd data={faqPage(service.faqs)} />
       <JsonLd data={breadcrumbList(crumbs)} />
 
-      <PageHeader title={`${service.name} in ${config.primaryCity}`} intro={service.shortDescription} crumbs={crumbs} />
+      <PageHeader
+        title={`${service.name} in ${config.primaryCity}, ${config.primaryState}`}
+        intro={service.shortDescription}
+        crumbs={crumbs}
+      />
 
       <div className="mx-auto grid max-w-page gap-10 px-4 pt-10 sm:px-6 lg:grid-cols-3">
         <article className="lg:col-span-2">{content}</article>
@@ -61,24 +66,23 @@ export default async function ServicePage({ params }: { params: { slug: string }
             </div>
           )}
           {service.priceFrom !== null && (
-            <div className="rounded-site border border-line bg-surface p-6">
-              <p className="text-sm font-semibold uppercase tracking-wide text-muted">Pricing</p>
+            <div className="border border-line bg-surface p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-muted">Pricing</p>
               <p className="mt-2 font-heading text-3xl font-bold text-primary-dark">From ${service.priceFrom}</p>
               {service.priceNote && <p className="mt-1 text-sm text-muted">{service.priceNote}</p>}
             </div>
           )}
-          {service.priceFrom === null && service.priceNote && (
-            <div className="rounded-site border border-line bg-surface p-6">
-              <p className="text-sm font-semibold uppercase tracking-wide text-muted">Pricing</p>
-              <p className="mt-2 text-sm text-ink">Pricing is {service.priceNote}.</p>
-            </div>
-          )}
+          {/* With no price, the pricing note rides inside the estimate card
+              instead of getting a box of its own: two boxes saying the same
+              thing is how a sidebar reads as filler. */}
+          <EstimateCard note={service.priceFrom === null ? service.priceNote : null} />
         </aside>
       </div>
 
       <FaqAccordion faqs={service.faqs} heading={`${service.name} Questions`} />
       <ServiceGrid heading="Other Services" exclude={service.slug} />
-      <CtaBand heading={`Need ${service.name.toLowerCase()} in ${config.primaryCity}?`} />
+      {/* Not toLowerCase(): it renders "ADU Construction" as "adu construction". */}
+      <CtaBand heading={`Need ${service.name} in ${config.primaryCity}?`} />
     </>
   )
 }

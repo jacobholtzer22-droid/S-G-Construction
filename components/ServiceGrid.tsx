@@ -26,8 +26,15 @@ export default function ServiceGrid({ heading = 'Our Services', exclude }: Props
               </span>
               <h3 className="font-heading text-2xl font-semibold text-primary-dark group-hover:text-accent md:col-span-4">{s.name}</h3>
               <p className="text-base leading-relaxed text-muted md:col-span-5">{s.shortDescription}</p>
+              {/* With no price in config this column says nothing about price.
+                  "Quoted on site" would be a claim about how the business
+                  works, which is not ours to make. */}
               <span className="text-sm font-semibold text-ink md:col-span-2 md:text-right">
-                {s.priceFrom !== null ? `From $${s.priceFrom}` : 'Quoted on site'}
+                {s.priceFrom !== null ? (
+                  `From $${s.priceFrom}`
+                ) : (
+                  <span className="text-accent-dark group-hover:underline">View details</span>
+                )}
               </span>
             </Link>
           </li>

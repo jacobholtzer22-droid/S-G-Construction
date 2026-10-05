@@ -77,7 +77,12 @@ export const siteConfigSchema = z
      */
     address: z
       .object({
-        street: z.string().min(3),
+        /**
+         * null for a service-area business that does not publish a street
+         * address. City, state, and ZIP still render and still reach schema;
+         * streetAddress is simply omitted. Never put a home address here.
+         */
+        street: z.string().min(3).nullable(),
         city: z.string().min(2),
         state: z.string().length(2),
         zip: z.string().regex(/^\d{5}$/),
@@ -85,6 +90,22 @@ export const siteConfigSchema = z
         lng: z.number().nullable(),
       })
       .nullable(),
+
+    /**
+     * The trade, for the homepage H1. The H1 must name what the business does,
+     * which is not always its first service (a general contractor is not "an
+     * ADU builder"). tradeLabelShort is the same fact in fewer characters, for
+     * the 60-character title limit the gate enforces.
+     */
+    tradeLabel: z.string().min(3),
+    tradeLabelShort: z.string().min(3),
+
+    /**
+     * Short phrase naming the actual work, for the services index title. The
+     * full service list never fits inside the 60-character title limit, and a
+     * generic "All Services" names nothing a searcher would type.
+     */
+    servicesLabel: z.string().min(3),
 
     primaryCity: z.string().min(2),
     /** Two-letter state for titles and area pages. Kept top-level because address may be null. */
@@ -96,6 +117,11 @@ export const siteConfigSchema = z
           slug,
           name: z.string().min(2),
           county: z.string().nullable(),
+          /**
+           * What this area actually is, so areaServed does not declare a county
+           * or a region to be a City. Defaults to City.
+           */
+          kind: z.enum(['City', 'AdministrativeArea', 'Place']).default('City'),
         }),
       )
       .min(1),
@@ -125,6 +151,27 @@ export const siteConfigSchema = z
         }),
       )
       .nullable(),
+
+    /**
+     * Opening times in words, for a business whose hours are known but whose
+     * DAYS are not. Rendered as text only. It never reaches
+     * openingHoursSpecification, because schema needs days and guessing them
+     * would publish hours the business never gave.
+     */
+    hoursNote: z.string().nullable(),
+
+    /**
+     * The year the business started, when that is the known fact. Preferred
+     * over yearsInBusiness: a stored year stays true, and a count has to be
+     * written as "N years", which is a claim nobody made.
+     */
+    establishedYear: z.number().int().nullable(),
+
+    /**
+     * The business's own words for what sets it apart, verbatim. Rendered as
+     * written. Never paraphrased into a stronger claim.
+     */
+    differentiators: z.array(z.string()).default([]),
 
     yearsInBusiness: z.number().int().positive().nullable(),
     licenseNumber: z.string().nullable(),

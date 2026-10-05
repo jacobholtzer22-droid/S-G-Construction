@@ -36,22 +36,28 @@ export function canonicalUrl(path: string): string {
 }
 
 export function buildTitle(args: Pick<BuildMetadataArgs, 'kind' | 'service' | 'area' | 'title'>): string {
-  const { displayName, primaryCity, primaryState, primaryService } = config
+  const { displayName, primaryCity, primaryState, primaryService, tradeLabelShort, servicesLabel } = config
   switch (args.kind) {
+    // The home title names the trade, not the first service: a general
+    // contractor's homepage should not read as a single-service page.
+    // tradeLabelShort exists because the gate caps titles at 60 characters.
     case 'home':
-      return `${displayName} | ${primaryService.name} in ${primaryCity}, ${primaryState}`
+      return `${tradeLabelShort} in ${primaryCity}, ${primaryState} | ${displayName}`
     case 'service':
       if (!args.service) throw new Error('buildTitle: kind "service" needs a service')
-      return `${args.service.name} in ${primaryCity} | ${displayName}`
+      return `${args.service.name} in ${primaryCity}, ${primaryState} | ${displayName}`
     case 'area':
       if (!args.area) throw new Error('buildTitle: kind "area" needs an area')
       return `${primaryService.name} in ${args.area.name}, ${primaryState} | ${displayName}`
+    // The display name appears once per title. Repeating it, as
+    // "About X in Y | X" did, spends characters that the 60-char limit does not
+    // have and reads as a template default.
     case 'services':
-      return `All Services in ${primaryCity} | ${displayName}`
+      return `${servicesLabel} in ${primaryCity}, ${primaryState} | ${displayName}`
     case 'about':
-      return `About ${displayName} in ${primaryCity} | ${displayName}`
+      return `About ${displayName} | ${primaryCity}, ${primaryState}`
     case 'contact':
-      return `Contact ${displayName} in ${primaryCity} | ${displayName}`
+      return `Contact ${displayName} | ${primaryCity}, ${primaryState}`
     case 'privacy':
       return `Privacy Policy and Data Use | ${displayName}`
     case 'other':
@@ -65,26 +71,27 @@ export function buildTitle(args: Pick<BuildMetadataArgs, 'kind' | 'service' | 'a
  * frontmatter; verify.ts checks the rendered length either way.
  */
 export function defaultDescription(args: Pick<BuildMetadataArgs, 'kind' | 'service' | 'area'>): string {
-  const { displayName, primaryCity, primaryState, primaryService, phoneDisplay } = config
-  const services = config.services.map((s) => s.name.toLowerCase())
+  const { displayName, primaryCity, primaryState, phoneDisplay, tradeLabel } = config
+  // Not toLowerCase(): it renders "ADU Construction" as "adu construction".
+  const services = config.services.map((s) => s.name)
   const list = services.length > 1 ? `${services.slice(0, -1).join(', ')} and ${services.at(-1)}` : services[0]
   switch (args.kind) {
     case 'home':
-      return `${displayName} provides ${list} for homes in ${primaryCity}, ${primaryState} and nearby towns. Call ${phoneDisplay} or request a free quote online.`
+      return `${displayName} is a ${tradeLabel.toLowerCase()} in ${primaryCity}, ${primaryState}, handling ${list}. Call ${phoneDisplay} for a free estimate.`
     case 'service':
-      return `${args.service?.shortDescription ?? ''} Serving ${primaryCity}, ${primaryState}. Call ${displayName} at ${phoneDisplay} for a free quote.`
+      return `${args.service?.shortDescription ?? ''} Serving ${primaryCity}, ${primaryState}. Call ${displayName} at ${phoneDisplay} for a free estimate.`
     case 'area':
-      return `${displayName} offers ${list} in ${args.area?.name ?? primaryCity}, ${primaryState}. Local crew, clear quotes, and reliable scheduling. Call ${phoneDisplay} to get started.`
+      return `${displayName} handles ${list} in ${args.area?.name ?? primaryCity}, ${primaryState}. Call ${phoneDisplay} for a free estimate on your project.`
     case 'services':
-      return `See every service ${displayName} offers in ${primaryCity}, ${primaryState}: ${list}. Each page explains what is included and answers common questions.`
+      return `See every service ${displayName} offers in ${primaryCity}, ${primaryState}: ${list}. Each page explains what the work involves and answers common questions.`
     case 'about':
-      return `Meet ${displayName}, the local crew behind ${primaryService.name.toLowerCase()} in ${primaryCity}, ${primaryState}. Learn how we work and why neighbors keep calling us back.`
+      return `${displayName} is a ${tradeLabel.toLowerCase()} based in ${primaryCity}, ${primaryState}. Read who runs it, what it takes on, and how to get a free estimate.`
     case 'contact':
-      return `Contact ${displayName} for ${primaryService.name.toLowerCase()} and more in ${primaryCity}, ${primaryState}. Call ${phoneDisplay} or send a message to request a free quote.`
+      return `Contact ${displayName} about ${list} in ${primaryCity}, ${primaryState}. Call ${phoneDisplay} or send a message to ask for a free estimate.`
     case 'privacy':
       return `How ${displayName} handles the information you share through this website, including contact form details, text message consent, and how to reach us about it.`
     case 'other':
-      return `${displayName} serves ${primaryCity}, ${primaryState} and the surrounding area. Call ${phoneDisplay} or send a message through the contact form to request a free quote.`
+      return `${displayName} serves ${primaryCity}, ${primaryState} and the surrounding area. Call ${phoneDisplay} or send a message through the contact form to ask for a free estimate.`
   }
 }
 

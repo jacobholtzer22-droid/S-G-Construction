@@ -25,7 +25,7 @@ export default async function ServicesIndexPage() {
     <>
       <JsonLd data={breadcrumbList(CRUMBS)} />
       <PageHeader title={`Services in ${config.primaryCity}, ${config.primaryState}`} crumbs={CRUMBS} />
-      <article className="mx-auto max-w-3xl px-4 pt-6 sm:px-6">{content}</article>
+      <article className="mx-auto max-w-page px-4 pt-6 sm:px-6 [&>*]:max-w-prose">{content}</article>
       <ServiceGrid heading="Everything We Offer" />
       <CtaBand />
     </>

@@ -30,7 +30,7 @@ export default async function PrivacyPolicyPage() {
     <>
       <JsonLd data={breadcrumbList(CRUMBS)} />
       <PageHeader title="Privacy Policy" crumbs={CRUMBS} />
-      <article className="prose-custom mx-auto max-w-3xl px-4 pt-6 text-base leading-relaxed text-ink sm:px-6">
+      <article className="prose-custom mx-auto max-w-page px-4 pt-6 text-base leading-relaxed text-ink sm:px-6 [&>*]:max-w-prose">
         {extra?.content}
 
         <h2 className="mt-10 font-heading text-2xl font-bold text-primary-dark">Who we are</h2>

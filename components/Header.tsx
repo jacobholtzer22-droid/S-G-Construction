@@ -9,9 +9,15 @@ const NAV = [
   { href: '/contact', label: 'Contact' },
 ]
 
+/**
+ * bg-surface, not bg-surface/95. Alpha modifiers do not work on the CSS variable
+ * colours this template uses (see tailwind.config.ts), and the /95 form does not
+ * fall back to the solid colour: it renders a fully transparent header that the
+ * page scrolls straight through. Do not reintroduce an opacity suffix here.
+ */
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface">
       <div className="mx-auto flex max-w-page items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="font-heading text-xl font-bold tracking-tight text-primary-dark">
           {config.displayName}

@@ -9,9 +9,15 @@ const PROFILE_LABELS: Record<string, string> = {
   yelp: 'Yelp',
 }
 
+/**
+ * The license number sits in the bottom bar, so it appears on every page of the
+ * site. California requires a licensed contractor to carry the license number
+ * in its advertising, and a website is advertising. Do not move it to one page.
+ */
 export default function Footer() {
   const year = new Date().getFullYear()
   const profiles = Object.entries(config.profiles).filter((e): e is [string, string] => typeof e[1] === 'string')
+  const a = config.address
 
   return (
     <footer className="mt-16 border-t border-line bg-primary-dark text-on-primary">
@@ -29,11 +35,15 @@ export default function Footer() {
               </a>
             </p>
           )}
-          {config.address && (
+          {a && (
             <address className="mt-3 text-sm not-italic opacity-80">
-              {config.address.street}
-              <br />
-              {config.address.city}, {config.address.state} {config.address.zip}
+              {a.street && (
+                <>
+                  {a.street}
+                  <br />
+                </>
+              )}
+              {a.city}, {a.state} {a.zip}
             </address>
           )}
         </div>
@@ -65,19 +75,23 @@ export default function Footer() {
         </div>
 
         <div>
-          {config.hours && (
+          {(config.hours || config.hoursNote) && (
             <>
               <p className="text-sm font-semibold uppercase tracking-wide opacity-70">Hours</p>
-              <ul className="mt-3 space-y-1 text-sm">
-                {config.hours.map((h) => (
-                  <li key={h.day} className="flex justify-between gap-4">
-                    <span>{h.day}</span>
-                    <span>
-                      {formatTime(h.open)} to {formatTime(h.close)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {config.hours ? (
+                <ul className="mt-3 space-y-1 text-sm">
+                  {config.hours.map((h) => (
+                    <li key={h.day} className="flex justify-between gap-4">
+                      <span>{h.day}</span>
+                      <span>
+                        {formatTime(h.open)} to {formatTime(h.close)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-3 text-sm">{config.hoursNote}</p>
+              )}
             </>
           )}
           {profiles.length > 0 && (
@@ -96,7 +110,8 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs opacity-70 sm:px-6">
           <p>
-            &copy; {year} {config.legalName}. All rights reserved.
+            &copy; {year} {config.legalName}
+            {config.licenseNumber ? ` | ${config.licenseNumber}` : ''}
           </p>
           <p className="flex gap-4">
             <Link href="/privacy-policy" className="hover:underline">

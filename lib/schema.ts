@@ -38,7 +38,17 @@ function heroImageUrl(c: SiteConfig): string | null {
 }
 
 function areaServed(areas: readonly ServiceArea[]): Json[] {
-  return areas.map((a) => ({ '@type': 'City', name: a.name }))
+  return areas.map((a) => ({ '@type': a.kind, name: a.name }))
+}
+
+/**
+ * establishedYear is the stated fact and wins. yearsInBusiness is only a
+ * fallback for a client who gave a count instead of a year.
+ */
+function foundingYear(c: SiteConfig): number | null {
+  if (c.establishedYear !== null) return c.establishedYear
+  if (c.yearsInBusiness !== null) return new Date().getFullYear() - c.yearsInBusiness
+  return null
 }
 
 function aggregateRating(c: SiteConfig): Json {
@@ -85,7 +95,7 @@ export function localBusiness(areas: readonly ServiceArea[] = config.serviceArea
     ...when(c.address, (a) => ({
       address: {
         '@type': 'PostalAddress',
-        streetAddress: a.street,
+        ...when(a.street, (street) => ({ streetAddress: street })),
         addressLocality: a.city,
         addressRegion: a.state,
         postalCode: a.zip,
@@ -105,7 +115,7 @@ export function localBusiness(areas: readonly ServiceArea[] = config.serviceArea
     })),
     areaServed: areaServed(areas),
     ...whenNonEmpty(sameAs(c), (urls) => ({ sameAs: urls })),
-    ...when(c.yearsInBusiness, (years) => ({ foundingDate: String(new Date().getFullYear() - years) })),
+    ...when(foundingYear(c), (year) => ({ foundingDate: String(year) })),
     ...aggregateRating(c),
     hasOfferCatalog: {
       '@type': 'OfferCatalog',

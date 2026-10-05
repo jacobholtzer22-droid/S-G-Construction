@@ -11,12 +11,18 @@ export function GET() {
     '',
     `> ${c.tagline}`,
     '',
-    `${c.legalName} provides ${c.services.map((s) => s.name.toLowerCase()).join(', ')} in ${c.primaryCity}, ${c.primaryState} and surrounding areas.`,
+    `${c.legalName} is a ${c.tradeLabel.toLowerCase()} providing ${c.services.map((s) => s.name).join(', ')} in ${c.primaryCity}, ${c.primaryState} and surrounding areas.`,
     '',
     '## Contact',
     `- Phone: ${c.phoneDisplay}`,
     ...(c.email ? [`- Email: ${c.email}`] : []),
-    ...(c.address ? [`- Address: ${c.address.street}, ${c.address.city}, ${c.address.state} ${c.address.zip}`] : []),
+    ...(c.address
+      ? [
+          `- Based in: ${[c.address.street, `${c.address.city}, ${c.address.state} ${c.address.zip}`]
+            .filter(Boolean)
+            .join(', ')}`,
+        ]
+      : []),
     `- Website: ${c.domain}`,
     `- Contact page: ${url('/contact')}`,
     '',
@@ -28,11 +34,16 @@ export function GET() {
   ]
   if (c.hours) {
     lines.push('', '## Hours', ...c.hours.map((h) => `- ${h.day}: ${formatTime(h.open)} to ${formatTime(h.close)}`))
+  } else if (c.hoursNote) {
+    // Hours are known but the days are not, so no day is asserted here either.
+    lines.push('', '## Hours', `- ${c.hoursNote}`)
   }
   const facts: string[] = []
-  if (c.yearsInBusiness !== null) facts.push(`- Years in business: ${c.yearsInBusiness}`)
-  if (c.insured === true) facts.push('- Insured: yes')
   if (c.licenseNumber) facts.push(`- License: ${c.licenseNumber}`)
+  if (c.establishedYear !== null) facts.push(`- Operating since: ${c.establishedYear}`)
+  else if (c.yearsInBusiness !== null) facts.push(`- Years in business: ${c.yearsInBusiness}`)
+  for (const d of c.differentiators) facts.push(`- ${d}`)
+  if (c.insured === true) facts.push('- Insured: yes')
   if (facts.length) lines.push('', '## Credentials', ...facts)
   lines.push('', '## Pages', `- [About](${url('/about')})`, `- [Privacy Policy](${url('/privacy-policy')})`, `- [Sitemap](${url('/sitemap.xml')})`)
 
