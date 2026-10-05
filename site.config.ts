@@ -11,14 +11,12 @@ import type { SiteConfigInput } from './lib/config-schema'
  */
 const siteConfig = {
   /**
-   * NOT YET KNOWN. This is the literal placeholder, not a slug.
-   *
-   * It is deliberately left unparseable so the build cannot succeed and the
-   * site cannot ship until the exact slug from the platform Business row is
-   * pasted in. A wrong slug returns HTTP 200 and silently drops every lead,
-   * which is invisible until the client asks why nobody is calling.
+   * The platform Business row this site's leads are filed against. A hardcoded
+   * literal, never an environment variable: a wrong slug returns HTTP 200 while
+   * every lead is dropped, which is invisible until the client asks why nobody
+   * is calling. verify.ts check 3 confirms it against the platform.
    */
-  businessSlug: '__PASTE_EXACT_SLUG_FROM_NEON_BUSINESS_ROW__',
+  businessSlug: 's-g-construction-inc-1791227378131',
 
   legalName: 'S&G Construction Inc.',
   displayName: 'S&G Construction',
