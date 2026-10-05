@@ -220,6 +220,32 @@ const siteConfig = {
   ],
 
   /**
+   * The /gallery page. Finished work leads each group; progress shots follow.
+   * Every filename is a key in public/images/manifest.json.
+   */
+  galleryGroups: [
+    {
+      heading: 'ADU Construction',
+      images: [
+        'adu-exterior-finished.jpg',
+        'adu-interior-finished.jpg',
+        'adu-roof-sheathing.jpg',
+        'adu-exterior-sheathing.jpg',
+        'adu-lath-before-stucco.jpg',
+        'adu-interior-framing.jpg',
+      ],
+    },
+    {
+      heading: 'Bathrooms',
+      images: ['bathroom-walk-in-shower.jpg', 'adu-bathroom-finished.jpg'],
+    },
+    {
+      heading: 'Exterior Work',
+      images: ['home-exterior-new-stucco.jpg'],
+    },
+  ],
+
+  /**
    * Filenames are keys in public/images/manifest.json, which is written by
    * `npm run images` from public/images/originals/ and holds the alt text.
    *

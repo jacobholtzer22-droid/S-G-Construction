@@ -5,6 +5,7 @@ import Phone from './Phone'
 const NAV = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
+  { href: '/gallery', label: 'Our Work' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -39,9 +40,14 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <nav aria-label="Main mobile" className="flex justify-center gap-5 border-t border-line px-4 py-2 md:hidden">
+      {/* Five items at 390px: nowrap so a two-word label cannot break across
+          lines, and scroll horizontally rather than wrap on narrower phones. */}
+      <nav
+        aria-label="Main mobile"
+        className="flex justify-center gap-4 overflow-x-auto whitespace-nowrap border-t border-line px-4 py-2 md:hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+      >
         {NAV.map((item) => (
-          <Link key={item.href} href={item.href} className="text-sm font-medium text-ink hover:text-primary">
+          <Link key={item.href} href={item.href} className="shrink-0 text-sm font-medium text-ink hover:text-primary">
             {item.label}
           </Link>
         ))}

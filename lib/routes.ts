@@ -15,7 +15,7 @@ import { config } from './config'
  * primary market would collide with a service page title, which the gate
  * rejects as a duplicate.
  */
-export const STATIC_ROUTES = ['/', '/services', '/about', '/contact', '/privacy-policy'] as const
+export const STATIC_ROUTES = ['/', '/services', '/gallery', '/about', '/contact', '/privacy-policy'] as const
 
 export function serviceRoutes(): string[] {
   return config.services.map((s) => `/services/${s.slug}`)

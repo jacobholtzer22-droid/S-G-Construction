@@ -45,7 +45,14 @@ export function GET() {
   for (const d of c.differentiators) facts.push(`- ${d}`)
   if (c.insured === true) facts.push('- Insured: yes')
   if (facts.length) lines.push('', '## Credentials', ...facts)
-  lines.push('', '## Pages', `- [About](${url('/about')})`, `- [Privacy Policy](${url('/privacy-policy')})`, `- [Sitemap](${url('/sitemap.xml')})`)
+  lines.push(
+    '',
+    '## Pages',
+    `- [About](${url('/about')})`,
+    ...(c.galleryGroups.length ? [`- [Our Work](${url('/gallery')})`] : []),
+    `- [Privacy Policy](${url('/privacy-policy')})`,
+    `- [Sitemap](${url('/sitemap.xml')})`,
+  )
 
   return new Response(lines.join('\n') + '\n', {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },

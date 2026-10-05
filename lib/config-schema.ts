@@ -206,6 +206,24 @@ export const siteConfigSchema = z
     /** Homepage FAQs. FAQPage schema on the homepage renders only when non-empty. */
     faqs: z.array(faq).default([]),
 
+    /**
+     * The /gallery page, grouped. Each group is one H2 and its own grid, and a
+     * group with no images simply is not listed. Filenames are manifest keys,
+     * so adding a photo is a config edit, never a code edit.
+     *
+     * Empty means the client has no photos to show. Remove '/gallery' from
+     * lib/routes.ts and delete app/gallery/page.tsx together in that case: the
+     * gate rejects a built route that the sitemap does not list.
+     */
+    galleryGroups: z
+      .array(
+        z.object({
+          heading: z.string().min(2),
+          images: z.array(z.string()).min(1),
+        }),
+      )
+      .default([]),
+
     /** Which processed images go where. Filenames are keys in public/images/manifest.json. */
     images: z.object({
       hero: z.string().nullable(),
