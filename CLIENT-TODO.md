@@ -13,17 +13,13 @@ Build date: 2026-10-05. Branch: `initial-build`.
 
 ### Business slug
 
-`site.config.ts` -> `businessSlug` is the literal string
-`__PASTE_EXACT_SLUG_FROM_NEON_BUSINESS_ROW__`.
+DONE. `site.config.ts` -> `businessSlug` is `s-g-construction-inc-1791227378131`.
 
-Paste the exact slug from the platform Business row. It is deliberately not a
-valid slug right now, so `npm run build` fails with
-`site.config.ts failed validation: businessSlug: must be kebab-case`. That is
-the intended behaviour: a wrong slug makes `/api/contact` answer 200 while every
-lead is dropped, and nobody finds out until the client asks why the phone stopped
-ringing. A build that refuses to run is the cheaper failure.
-
-After pasting it, run `npm run verify` and confirm check 2 and check 3 both pass.
+`npm run verify` check 2 passes. Check 3 still fails, because
+`GET https://www.alignandacquire.com/api/verify-slug` answers 404 for every
+slug, so nothing has actually confirmed this slug against the platform yet.
+Send one real test submission through the contact form before the first ad runs
+and confirm the lead lands on the right Business row.
 
 ### Domain
 
@@ -39,49 +35,68 @@ primary host, the `www.`. No trailing slash, no path.
 
 ## 2. Photos
 
-There are none. Every demo photo that shipped with the template was deleted from
-`public/` so it cannot reach a client site, and `public/images/manifest.json` is
-`{}`.
+Nine photographs are live. Sources in `public/images/originals/`, renditions in
+`public/images/processed/`, alt text in `public/images/manifest.json`.
 
-The photo slots are wired and config-driven. Adding photos needs no code change.
+Where they are used:
 
-### How to turn photos on
+| Image | Used on |
+|---|---|
+| adu-exterior-finished.jpg | homepage hero, /gallery |
+| adu-interior-finished.jpg | /services/adu-construction, /gallery |
+| adu-interior-framing.jpg | /about, /gallery |
+| bathroom-walk-in-shower.jpg | /services/bathroom-remodels, /gallery |
+| adu-bathroom-finished.jpg | /gallery |
+| adu-roof-sheathing.jpg | /gallery |
+| adu-exterior-sheathing.jpg | /gallery |
+| adu-lath-before-stucco.jpg | /gallery |
+| home-exterior-new-stucco.jpg | /gallery |
 
-1. Drop the original files into `public/images/originals/`.
-2. Run `npm run images`. That writes the WebP renditions into
-   `public/images/processed/` and adds an entry per file to
-   `public/images/manifest.json`, keyed by the original filename.
-3. Open `public/images/manifest.json` and write the `alt` for each entry: ten to
-   twenty words naming what is actually in the photo. The build throws on a
-   missing alt, on purpose.
-4. Name the files in `site.config.ts`:
+### What to ask the client for
 
-| What it turns on | Config key | Value |
-|---|---|---|
-| Full-bleed photo hero on the homepage | `images.hero` | one filename |
-| Photo on the About page | `images.about` | one filename |
-| Full-dark gallery band on the homepage | `images.gallery` | array of filenames, first one renders large |
-| Photo in each service page sidebar | `services[n].image` | one filename |
+1. **The original photos behind three screenshots.** `HB ADU roof framing.png`,
+   `HB ADU wall framing.png` and `bathroom #5.png` are phone screenshots of
+   photos, with black letterbox bars and the home-indicator bar baked in. The
+   third one is the single best bathroom in the whole set, a finished bathroom
+   with a freestanding tub and a walk-in shower, and it is worth chasing. Ask
+   for the originals from the camera roll.
+2. **Photos of a kitchen remodel.** There is not one, so
+   /services/kitchen-remodels has no photo and the homepage service list stays
+   a numbered list rather than photo cards.
+3. **Photos of a full home remodel.** Same situation for
+   /services/full-home-remodels.
+4. **Ramiro on a job site, and the truck.** Still missing. The About page uses
+   an interior framing shot instead.
+5. **Before and after pairs.** None of the current photos are the same room
+   from the same angle, so no before and after is claimed anywhere. If the
+   client has a matched pair, that is the strongest thing a remodeler can show.
 
-The hero swaps itself from the type-led layout to the photographic one the moment
-`images.hero` is set. `theme.heroVariant` is already `full-bleed`; set it to
-`split` instead if the photo cannot carry a full bleed.
+### Four videos were not used
 
-### Shot list
+`completed HB ADU_.mov`, `bathroom #1.mov`, `bathroom #2.mov`, `bathroom#3.mov`.
+The site has no video support, and adding it is a separate decision. The
+bathroom videos may well contain the best still frames in the set.
 
-- Kitchen: before and after, same angle, both shots.
-- Bathroom: before and after, same angle, both shots.
-- ADU: before and after. The before should show the lot or the garage as it
-  started.
-- One wide shot of a finished ADU exterior for the homepage hero. Landscape,
-  shot with room above and to the left, because the headline sits over it.
-- Ramiro on a job site, working rather than posed.
-- The truck.
+### Turning more photos on
 
-Phone photos are fine if they are sharp and shot in daylight. What matters is
-that they are S&G's own work: no stock, no AI images, no borrowed photos.
+Drop files in `public/images/originals/`, run `npm run images`, write the alt
+in `public/images/manifest.json` (the build fails on a missing alt, on
+purpose), then name the file in `site.config.ts`:
 
----
+| What it turns on | Config key |
+|---|---|
+| Homepage hero | `images.hero` |
+| About page photo | `images.about` |
+| Full-dark photo band on the homepage | `images.gallery`, currently empty on purpose, because /gallery covers it and the homepage already has a full-dark band |
+| Photo on a service page | `services[n].image` |
+| /gallery | `galleryGroups[n].images` |
+
+### Raw media
+
+The client's original drop is in `SandG Construction Website/` at the repo
+root. It is gitignored: it is 162 MB, most of it video, and the pipeline input
+is `public/images/originals/`. It stays on the local machine, so keep a copy
+somewhere else.
 
 ## 3. Facts still needed
 
@@ -94,7 +109,6 @@ that they are S&G's own work: no stock, no AI images, no borrowed photos.
 | Which Inland Empire cities to name | `serviceAreas` | "Inland Empire" is named as a region. No Inland Empire city is named anywhere |
 | Whether any pricing may be published | `services[n].priceFrom` / `priceNote` | no figure anywhere. Cost questions are answered with what drives the price |
 | Logo and brand colours | `theme.ts`, header | the wordmark is "S&G Construction" set in type. The palette was chosen for the trade, not from a brand |
-| Favicon | `app/` | none. Browsers show their default tab icon. A favicon needs either a logo or a decision to set the initials in type |
 | Google Business Profile URL | `profiles.gbp` | no profile links, no social row in the footer |
 | Facebook / Instagram / Yelp | `profiles.*` | same |
 | Reviews, with the source URL for each | `reviews` | no reviews section, and no Review or aggregateRating schema. Both switch on together when real reviews with URLs are added |
