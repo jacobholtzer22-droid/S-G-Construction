@@ -27,3 +27,7 @@ next-env.d.ts
 
 # local tooling
 .claude/
+
+# Client raw media drop. The pipeline input is public/images/originals/;
+# this folder is the staging area for what the client sent and stays local.
+/SandG Construction Website/

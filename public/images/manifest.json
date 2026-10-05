@@ -1,1 +1,98 @@
-{}
+{
+  "adu-bathroom-finished.jpg": {
+    "width": 1440,
+    "height": 1920,
+    "alt": "Finished bathroom with a vanity, mirror, toilet and tiled walk-in shower",
+    "base": "adu-bathroom-finished",
+    "sizes": [
+      640,
+      1024
+    ]
+  },
+  "adu-exterior-finished.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Finished detached accessory dwelling unit with stucco walls, entry door and two exterior lights",
+    "base": "adu-exterior-finished",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "adu-exterior-sheathing.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Exterior wall sheathing with a new entry door and window on a detached unit",
+    "base": "adu-exterior-sheathing",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "adu-interior-finished.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Finished open living space with a kitchenette, ceiling fan, skylight and tile floor",
+    "base": "adu-interior-finished",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "adu-interior-framing.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Interior stud framing, rough wiring and open ceiling joists inside a detached unit",
+    "base": "adu-interior-framing",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "adu-lath-before-stucco.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Wire lath and building paper wrapped around a detached accessory dwelling unit before stucco",
+    "base": "adu-lath-before-stucco",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "adu-roof-sheathing.jpg": {
+    "width": 1920,
+    "height": 1440,
+    "alt": "Roof sheathing and ridge framing going on above a detached backyard accessory dwelling unit",
+    "base": "adu-roof-sheathing",
+    "sizes": [
+      640,
+      1024,
+      1920
+    ]
+  },
+  "bathroom-walk-in-shower.jpg": {
+    "width": 1440,
+    "height": 1920,
+    "alt": "Finished walk-in shower with glass doors, tiled walls, a corner niche and dark fixtures",
+    "base": "bathroom-walk-in-shower",
+    "sizes": [
+      640,
+      1024
+    ]
+  },
+  "home-exterior-new-stucco.jpg": {
+    "width": 1440,
+    "height": 1920,
+    "alt": "Rear wall of a house with new stucco, white-framed windows and exterior utility connections",
+    "base": "home-exterior-new-stucco",
+    "sizes": [
+      640,
+      1024
+    ]
+  }
+}

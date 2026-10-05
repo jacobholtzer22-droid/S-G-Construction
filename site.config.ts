@@ -62,7 +62,7 @@ const siteConfig = {
         'Accessory dwelling units built on residential property, from a detached new build to a garage or interior conversion.',
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
-      image: null,
+      image: 'adu-interior-finished.jpg',
       faqs: [
         {
           q: 'What is an ADU?',
@@ -143,7 +143,7 @@ const siteConfig = {
         'Bathroom remodels for homes, including tile, vanities, tubs and showers, and reworking a layout that no longer fits the room.',
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
-      image: null,
+      image: 'bathroom-walk-in-shower.jpg',
       faqs: [
         {
           q: 'What does a bathroom remodel include?',
@@ -220,16 +220,17 @@ const siteConfig = {
   ],
 
   /**
-   * No client photos exist yet. Photos are coming later.
+   * Filenames are keys in public/images/manifest.json, which is written by
+   * `npm run images` from public/images/originals/ and holds the alt text.
    *
-   * These slots stay wired. Drop the files in public/images/originals/, run
-   * `npm run images`, write the alt text in public/images/manifest.json, and
-   * name the files here. No code change is needed to turn them on. The exact
-   * paths and keys are in the client follow-up file at the repo root.
+   * `gallery` drives the full-dark band on the homepage and is deliberately
+   * empty: the work lives on /gallery instead, and the homepage already has a
+   * full-dark band in the service-area section. Naming files here turns the
+   * homepage band on with no code change.
    */
   images: {
-    hero: null,
-    about: null,
+    hero: 'adu-exterior-finished.jpg',
+    about: 'adu-interior-framing.jpg',
     gallery: [],
   },
 

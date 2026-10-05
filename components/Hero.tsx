@@ -51,13 +51,27 @@ export default function Hero() {
   if (hero && theme.heroVariant === 'full-bleed') {
     return (
       <section className="relative isolate flex min-h-[78vh] items-end overflow-hidden bg-primary-dark text-on-primary">
-        <Img name={hero} priority sizes="100vw" className="absolute inset-0 z-0 h-full w-full object-cover" />
+        {/* object-position favours the left of the frame. On a phone the box is
+            portrait, so cover crops horizontally and a centred crop lands on
+            whatever happens to be mid-frame. On desktop the crop is vertical
+            only and this value has no effect. */}
+        <Img name={hero} priority sizes="100vw" className="absolute inset-0 z-0 h-full w-full object-cover object-[30%_50%]" />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-[1]"
           style={{ background: 'linear-gradient(180deg, rgb(0 0 0 / 0.15) 0%, rgb(0 0 0 / 0.45) 45%, rgb(0 0 0 / 0.78) 100%)' }}
         />
-        <div className="relative z-10 mx-auto w-full max-w-page px-4 pb-16 pt-40 sm:px-6 md:pb-24">
+        {/* Second scrim across the text column only, so the headline keeps its
+            contrast over whatever the photograph puts behind it (a white door,
+            a bright sky) without flattening the whole image. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-[2]"
+          style={{ background: 'linear-gradient(90deg, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0.30) 45%, rgb(0 0 0 / 0) 75%)' }}
+        />
+        {/* pb-24 on mobile keeps the phone line clear of the fixed tap-to-call
+            bar, which covers the bottom 56px of the viewport. */}
+        <div className="relative z-10 mx-auto w-full max-w-page px-4 pb-24 pt-28 sm:px-6 md:pb-24 md:pt-40">
           {eyebrow('opacity-85')}
           <h1 className="mt-5 max-w-4xl font-heading text-hero font-extrabold">{h1}</h1>
           <p className="mt-6 max-w-2xl text-lg opacity-90 md:text-xl">{config.tagline}</p>
