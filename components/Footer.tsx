@@ -13,6 +13,8 @@ const PROFILE_LABELS: Record<string, string> = {
  * The license number sits in the bottom bar, so it appears on every page of the
  * site. California requires a licensed contractor to carry the license number
  * in its advertising, and a website is advertising. Do not move it to one page.
+ *
+ * Service areas are text, not links: this site has no per-area pages.
  */
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -64,11 +66,9 @@ export default function Footer() {
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide opacity-70">Service Areas</p>
           <ul className="mt-3 space-y-2 text-sm">
-            {config.serviceAreas.map((a) => (
-              <li key={a.slug}>
-                <Link href={`/areas/${a.slug}`} className="hover:underline">
-                  {a.name}, {config.primaryState}
-                </Link>
+            {config.serviceAreas.map((area) => (
+              <li key={area.slug}>
+                {area.name}, {config.primaryState}
               </li>
             ))}
           </ul>
