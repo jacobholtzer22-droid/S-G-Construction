@@ -1,4 +1,4 @@
-import { Fraunces, Manrope } from 'next/font/google'
+import { Archivo, Work_Sans } from 'next/font/google'
 
 /**
  * The two typefaces for this site, loaded through next/font so they are
@@ -6,17 +6,19 @@ import { Fraunces, Manrope } from 'next/font/google'
  * fonts: swap the imports and the two exports, keep the `variable` names, and
  * list only weights the family actually ships.
  *
- * The display face must have character. Never Inter, system-ui, or Arial for
- * headings. See AGENT.md Phase 2 for the pairings per direction.
+ * Archivo at 800 for display: a grotesque with enough width and weight to carry
+ * a headline with no photograph behind it, which is the whole design problem on
+ * this site. Work Sans for body, at a lighter weight than the headings so the
+ * contrast between the two is doing work. Two weights per face, no more.
  */
-export const headingFont = Fraunces({
+export const headingFont = Archivo({
   subsets: ['latin'],
-  weight: ['500', '700'],
+  weight: ['600', '800'],
   variable: '--font-heading',
   display: 'swap',
 })
 
-export const bodyFont = Manrope({
+export const bodyFont = Work_Sans({
   subsets: ['latin'],
   weight: ['400', '600'],
   variable: '--font-body',

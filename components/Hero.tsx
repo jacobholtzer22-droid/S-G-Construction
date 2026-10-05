@@ -28,9 +28,12 @@ export default function Hero() {
   const hero = config.images.hero
 
   const cta = (dark: boolean) => (
-    <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-      <Link href="/contact" className="rounded-site bg-accent px-6 py-3.5 text-base font-semibold text-on-accent hover:bg-accent-dark">
-        Request a Free Quote
+    <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+      <Link
+        href="/contact"
+        className="rounded-site bg-accent px-7 py-4 text-base font-semibold uppercase tracking-[0.08em] text-on-accent hover:bg-accent-dark"
+      >
+        Request a Free Estimate
       </Link>
       <span className={`text-base ${dark ? 'text-on-primary' : 'text-ink'}`}>
         or call <Phone className={dark ? 'text-on-primary' : 'text-primary-dark'} />

@@ -3,161 +3,248 @@ import type { SiteConfigInput } from './lib/config-schema'
 /**
  * Every business fact for this site lives here and nowhere else.
  *
- * This shipped copy describes "Sample Lawn Care", a fictional business, so the
- * template builds and renders out of the box. It is a sample identity, not a
- * placeholder to edit around: scripts/verify.ts check 2 refuses to pass while
- * the slug, names, or domain still carry the sample identity, and check 3
- * confirms the slug exists on the platform. Replace every value from BRIEF.md.
- *
  * Unknown facts are null. A null field renders nothing. A guessed value is a defect.
+ *
+ * S&G Construction Inc., Westminster, CA. Built from the client brief of
+ * 2026-10-05. Everything the brief did not state is null or an empty array, and
+ * each one of those is listed in the client follow-up file at the repo root.
  */
 const siteConfig = {
-  businessSlug: 'sample-lawn-care',
+  /**
+   * NOT YET KNOWN. This is the literal placeholder, not a slug.
+   *
+   * It is deliberately left unparseable so the build cannot succeed and the
+   * site cannot ship until the exact slug from the platform Business row is
+   * pasted in. A wrong slug returns HTTP 200 and silently drops every lead,
+   * which is invisible until the client asks why nobody is calling.
+   */
+  businessSlug: '__PASTE_EXACT_SLUG_FROM_NEON_BUSINESS_ROW__',
 
-  legalName: 'Sample Lawn Care LLC',
-  displayName: 'Sample Lawn Care',
-  tagline: 'Reliable lawn care for homes across the Springfield area.',
+  legalName: 'S&G Construction Inc.',
+  displayName: 'S&G Construction',
+  tagline: 'Residential general contractor serving Orange County, Long Beach, Lakewood, and the Inland Empire.',
 
-  schemaType: 'HomeAndConstructionBusiness',
+  schemaType: 'GeneralContractor',
 
-  phone: '+15555550123',
-  email: 'hello@sample-lawn-care.com',
+  phone: '+16575274538',
+  // The client takes leads by phone and through the form. No email address is published.
+  email: null,
 
   address: {
-    street: '100 Sample Street',
-    city: 'Springfield',
-    state: 'IL',
-    zip: '62701',
+    // The street address is not public. The business runs out of Westminster and
+    // visits the customer's property; there is no storefront to send anyone to.
+    street: null,
+    city: 'Westminster',
+    state: 'CA',
+    zip: '92683',
     lat: null,
     lng: null,
   },
 
-  primaryCity: 'Springfield',
-  primaryState: 'IL',
+  tradeLabel: 'Residential General Contractor',
+  tradeLabelShort: 'General Contractor',
+  servicesLabel: 'ADUs and Remodels',
+
+  // The market this site is written for. The Westminster home base is in `address`.
+  primaryCity: 'Orange County',
+  primaryState: 'CA',
 
   serviceAreas: [
-    { slug: 'springfield', name: 'Springfield', county: 'Sangamon County' },
-    { slug: 'chatham', name: 'Chatham', county: 'Sangamon County' },
-    { slug: 'rochester', name: 'Rochester', county: 'Sangamon County' },
-    { slug: 'sherman', name: 'Sherman', county: 'Sangamon County' },
+    { slug: 'orange-county', name: 'Orange County', county: null, kind: 'AdministrativeArea' },
+    { slug: 'long-beach', name: 'Long Beach', county: null, kind: 'City' },
+    { slug: 'lakewood', name: 'Lakewood', county: null, kind: 'City' },
+    { slug: 'inland-empire', name: 'Inland Empire', county: null, kind: 'Place' },
   ],
 
   services: [
     {
-      slug: 'lawn-mowing',
-      name: 'Lawn Mowing',
+      slug: 'adu-construction',
+      name: 'ADU Construction',
       shortDescription:
-        'Weekly and biweekly mowing with edging, trimming, and cleanup on every visit, scheduled on the same day each week.',
-      priceFrom: 45,
-      priceNote: 'per visit for a typical quarter-acre lot; larger lots quoted on site',
-      image: 'sample-mowing.jpg',
+        'Accessory dwelling units built on residential property, from a detached new build to a garage or interior conversion.',
+      priceFrom: null,
+      priceNote: 'quoted after a free estimate',
+      image: null,
       faqs: [
         {
-          q: 'How often should my lawn be mowed?',
-          a: 'Most lawns in central Illinois do best on a weekly schedule from May through September, then every other week as growth slows in spring and fall. We set the schedule with you and adjust it when the weather changes.',
+          q: 'What is an ADU?',
+          a: 'An accessory dwelling unit is a second, self-contained home on a lot that already has a house on it. It has its own kitchen, bathroom, and entrance. In California an ADU can be a detached new build, an addition to the existing house, or a conversion of space you already have, such as a garage.',
         },
         {
-          q: 'Do you bag the clippings or mulch them?',
-          a: 'We mulch clippings back into the lawn by default because it returns nutrients to the soil. If you prefer bagging, or the grass has gotten long between visits, we bag and haul the clippings away.',
+          q: 'What does an ADU cost to build?',
+          a: 'It depends on the size of the unit, whether it is a new build or a conversion, how far it sits from existing water, sewer, and electrical service, what the site access is like, and the finishes you choose. Those are the things worth walking through in person, so call for a free estimate and you will get a number for your actual property rather than an average.',
         },
         {
-          q: 'What is included in a mowing visit?',
-          a: 'Every visit includes mowing, string trimming around obstacles, edging along walks and drives, and blowing clippings off hard surfaces. Nothing is left on your patio or driveway.',
+          q: 'Can a garage be converted into an ADU?',
+          a: 'A garage conversion is one of the common ways an ADU gets built, because the slab, walls, and roof already exist. What it takes depends on the condition of the structure and how the plumbing and electrical need to be run. We look at the garage before saying what is realistic.',
+        },
+        {
+          q: 'Do you build ADUs outside Orange County?',
+          a: 'Yes. S&G Construction works anywhere in Orange County and also takes projects in Long Beach, Lakewood, and the Inland Empire.',
         },
       ],
     },
     {
-      slug: 'mulch-installation',
-      name: 'Mulch Installation',
+      slug: 'full-home-remodels',
+      name: 'Full Home Remodels',
       shortDescription:
-        'Bed edging, weed removal, and fresh hardwood or dyed mulch installed at the right depth so beds stay tidy all season.',
+        'Whole-house residential remodels, where most or all of the rooms in the home are reworked as one project rather than one at a time.',
       priceFrom: null,
-      priceNote: 'quoted by the yard after we measure your beds',
-      image: 'sample-mulch.jpg',
+      priceNote: 'quoted after a free estimate',
+      image: null,
       faqs: [
         {
-          q: 'How deep should mulch be installed?',
-          a: 'We install mulch two to three inches deep. Less than that lets weeds through and dries out fast; more than that can smother roots and hold too much moisture against plant stems.',
+          q: 'What counts as a full home remodel?',
+          a: 'A full remodel is one project that covers most or all of the house rather than a single room. It usually means kitchen and bathrooms together with flooring, paint, and finishes throughout, and often changes to how the rooms are laid out.',
         },
         {
-          q: 'Do you remove the old mulch first?',
-          a: 'Usually not. Old mulch breaks down into the soil, so we pull weeds, redefine the bed edge, and top-dress with new mulch. If the old layer is already too deep, we remove some before installing.',
+          q: 'How much does a full home remodel cost?',
+          a: 'The size of the house is the starting point, and then it comes down to how much of the layout changes, how much of the kitchen and bathrooms are included, the level of finish you want, and what the existing structure and systems turn out to need. S&G Construction gives free estimates, so the honest answer is to have it looked at.',
         },
         {
-          q: 'What kind of mulch do you offer?',
-          a: 'We install natural hardwood mulch and dyed mulch in brown, black, or red. We will talk through which holds its color longest and which suits the plants in your beds before we order.',
+          q: 'Is it better to remodel room by room or all at once?',
+          a: 'Both approaches are normal. Doing it as one project means the trades are coordinated once and the finishes match across the house. Doing it room by room spreads the work out and lets you keep living in more of the home. Which one fits depends on your house and how you want to live through it.',
+        },
+        {
+          q: 'Do you only work on houses?',
+          a: 'Yes. S&G Construction is a residential general contractor and takes residential projects only. We do not do commercial work.',
         },
       ],
     },
     {
-      slug: 'seasonal-cleanup',
-      name: 'Seasonal Cleanup',
+      slug: 'kitchen-remodels',
+      name: 'Kitchen Remodels',
       shortDescription:
-        'Spring and fall cleanups that clear leaves, cut back perennials, and get beds and lawns ready for the season ahead.',
+        'Kitchen remodels for homes, from replacing cabinets, counters, and finishes to opening the room up and moving the layout.',
       priceFrom: null,
-      priceNote: 'quoted after a quick walk of the property',
-      image: 'sample-cleanup.jpg',
+      priceNote: 'quoted after a free estimate',
+      image: null,
       faqs: [
         {
-          q: 'When should I schedule a fall cleanup?',
-          a: 'Once most of the leaves have dropped, which in the Springfield area is usually mid to late November. We can also do a first pass earlier in fall and a final pass after the trees are bare.',
+          q: 'What does a kitchen remodel usually involve?',
+          a: 'At a minimum it means new cabinets, counters, and finishes. Beyond that it can mean new appliances, lighting, and flooring, and if the layout changes, moving plumbing and electrical and sometimes taking out a wall. The further the layout moves from the original, the more trades are involved.',
         },
         {
-          q: 'What does a spring cleanup include?',
-          a: 'We remove leaves and debris left from winter, cut back perennials and ornamental grasses, redefine bed edges, and haul everything away so the lawn and beds are ready for the growing season.',
+          q: 'How much does a kitchen remodel cost?',
+          a: 'The main drivers are the size of the kitchen, whether the layout stays where it is or moves, the cabinets and counters you pick, and what is found once the old kitchen comes out. A free estimate at the house is the only way to put a real number on it.',
         },
         {
-          q: 'Do you haul away the debris?',
-          a: 'Yes. Everything we clear is loaded and hauled off the property the same day. You are not left with bags at the curb.',
+          q: 'Do I have to move out during a kitchen remodel?',
+          a: 'Most people stay in the house and set up a temporary place to cook, since the work is contained to one room. Whether that is comfortable depends on the layout of your home and how much of the surrounding space the work touches.',
+        },
+        {
+          q: 'Can you move a wall to open up the kitchen?',
+          a: 'Opening a kitchen up is a common part of the job, but whether a specific wall can come out depends on what it is carrying. That gets confirmed on site before anything is promised.',
+        },
+      ],
+    },
+    {
+      slug: 'bathroom-remodels',
+      name: 'Bathroom Remodels',
+      shortDescription:
+        'Bathroom remodels for homes, including tile, vanities, tubs and showers, and reworking a layout that no longer fits the room.',
+      priceFrom: null,
+      priceNote: 'quoted after a free estimate',
+      image: null,
+      faqs: [
+        {
+          q: 'What does a bathroom remodel include?',
+          a: 'Usually tile, a vanity, fixtures, and either a tub or a shower, plus waterproofing behind what you can see. If the layout changes, or a tub becomes a walk-in shower, the plumbing moves too, which is the part that drives the schedule.',
+        },
+        {
+          q: 'How much does a bathroom remodel cost?',
+          a: 'Size matters less here than what you are changing. Keeping the fixtures where they are costs less than moving them, tile and vanity choices move the number a lot, and older homes sometimes need plumbing or framing work once the walls are open. S&G Construction gives free estimates, so ask and you will get a figure for your bathroom.',
+        },
+        {
+          q: 'Can a tub be replaced with a walk-in shower?',
+          a: 'That is a common request and usually workable. It means new waterproofing, a different drain position in many cases, and tile work across the whole wet area, so it is more than a swap of the fixture.',
+        },
+        {
+          q: 'Do you do small bathroom repairs?',
+          a: 'No. S&G Construction focuses on full-scope residential projects and does not take on handyman work, small repairs, or basic installations. A bathroom remodel is a project we take; replacing a single fixture is not.',
         },
       ],
     },
   ],
 
-  hours: [
-    { day: 'Monday', open: '08:00', close: '17:00' },
-    { day: 'Tuesday', open: '08:00', close: '17:00' },
-    { day: 'Wednesday', open: '08:00', close: '17:00' },
-    { day: 'Thursday', open: '08:00', close: '17:00' },
-    { day: 'Friday', open: '08:00', close: '17:00' },
-    { day: 'Saturday', open: '08:00', close: '12:00' },
-  ],
+  /**
+   * null because the DAYS are not confirmed. The brief gave 8am to 5pm and
+   * nothing about which days, so there is no honest openingHoursSpecification
+   * to emit. The known part is in `hoursNote` and renders as text.
+   */
+  hours: null,
+  hoursNote: '8am to 5pm',
 
-  yearsInBusiness: 12,
-  licenseNumber: null,
-  insured: true,
+  establishedYear: 2023,
+  yearsInBusiness: null,
+  licenseNumber: 'CSLB Lic. #1113089',
+  /** Not stated in the brief. Nothing on this site may say insured or bonded. */
+  insured: null,
 
+  differentiators: ['Free estimates', 'Family operated'],
+
+  /** No reviews exist yet. No Review or aggregateRating schema can render. */
   reviews: [],
 
+  /** No Google Business Profile and no social pages exist yet. */
   profiles: {
     gbp: null,
-    facebook: 'https://www.facebook.com/samplelawncare',
+    facebook: null,
     instagram: null,
     yelp: null,
   },
 
   faqs: [
     {
-      q: 'Which areas do you serve?',
-      a: 'We serve Springfield and the surrounding communities of Chatham, Rochester, and Sherman. If you are just outside those areas, ask and we will let you know if we can fit you in.',
+      q: 'What areas do you serve?',
+      a: 'S&G Construction works anywhere in Orange County, and also takes projects in Long Beach, Lakewood, and the Inland Empire. In Orange County that includes Westminster, Huntington Beach, Garden Grove, Fountain Valley, Santa Ana, Anaheim, Irvine, Costa Mesa, Orange, Fullerton, and Newport Beach.',
     },
     {
-      q: 'How do I get a quote?',
-      a: 'Call us or send the contact form on this site. For mowing we can often quote from the property size; for mulch and cleanups we stop by to measure and walk the property first.',
+      q: 'Is S&G Construction licensed?',
+      a: 'Yes. S&G Construction Inc. holds CSLB Lic. #1113089, a Class B General Building Contractor license, and has been licensed and operating since 2023. California contractors are required to carry that number in their advertising, which is why it appears in the footer of every page here.',
     },
     {
-      q: 'Are you insured?',
-      a: 'Yes. We carry liability insurance and are happy to provide a certificate on request before work begins.',
+      q: 'Do you offer free estimates?',
+      a: 'Yes, estimates are free. Call and we will set up a time to look at the project and put a number to it.',
+    },
+    {
+      q: 'What kinds of projects do you take on?',
+      a: 'Four: ADU construction, full home remodels, kitchen remodels, and bathroom remodels. All of it is residential work.',
+    },
+    {
+      q: 'Do you do handyman work or small repairs?',
+      a: 'No. S&G Construction focuses on full-scope residential projects. We do not take on handyman work, small repairs, or basic installations.',
+    },
+    {
+      q: 'Do you do commercial work?',
+      a: 'No. S&G Construction is a residential general contractor and takes residential projects only.',
     },
   ],
 
+  /**
+   * No client photos exist yet. Photos are coming later.
+   *
+   * These slots stay wired. Drop the files in public/images/originals/, run
+   * `npm run images`, write the alt text in public/images/manifest.json, and
+   * name the files here. No code change is needed to turn them on. The exact
+   * paths and keys are in the client follow-up file at the repo root.
+   */
   images: {
-    hero: 'sample-hero.jpg',
-    about: 'sample-crew.jpg',
-    gallery: ['sample-mowing.jpg', 'sample-mulch.jpg', 'sample-cleanup.jpg', 'sample-crew.jpg'],
+    hero: null,
+    about: null,
+    gallery: [],
   },
 
-  domain: 'https://www.sample-lawn-care.com',
+  /**
+   * NOT YET KNOWN. No domain has been registered.
+   *
+   * `.invalid` is the reserved TLD for exactly this (RFC 2606), so it can never
+   * resolve to a real host. Canonicals, the sitemap, robots.txt, and every
+   * schema URL are built from this one value, so they are all consistent and
+   * all obviously unset. Replace it with the real origin, including www. if www
+   * is the primary host, before launch.
+   */
+  domain: 'https://domain-not-set.invalid',
 } satisfies SiteConfigInput
 
 export default siteConfig

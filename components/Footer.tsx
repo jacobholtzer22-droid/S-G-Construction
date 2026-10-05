@@ -14,7 +14,8 @@ const PROFILE_LABELS: Record<string, string> = {
  * site. California requires a licensed contractor to carry the license number
  * in its advertising, and a website is advertising. Do not move it to one page.
  *
- * Service areas are text, not links: this site has no per-area pages.
+ * Service areas are text, not links: this site has no per-area pages. Social
+ * links render only for profiles that exist, so an empty row never ships.
  */
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -22,12 +23,12 @@ export default function Footer() {
   const a = config.address
 
   return (
-    <footer className="mt-16 border-t border-line bg-primary-dark text-on-primary">
-      <div className="mx-auto grid max-w-page gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
+    <footer className="mt-auto border-t-2 border-accent bg-primary-dark text-on-primary">
+      <div className="mx-auto grid max-w-page gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 md:py-16">
         <div>
-          <p className="font-heading text-lg font-bold">{config.displayName}</p>
-          <p className="mt-2 text-sm opacity-80">{config.tagline}</p>
-          <p className="mt-4 text-sm">
+          <p className="font-heading text-xl font-bold tracking-tight">{config.displayName}</p>
+          <p className="mt-3 text-sm leading-relaxed opacity-75">{config.tagline}</p>
+          <p className="mt-5 text-base">
             <Phone className="text-on-primary" />
           </p>
           {config.email && (
@@ -38,7 +39,7 @@ export default function Footer() {
             </p>
           )}
           {a && (
-            <address className="mt-3 text-sm not-italic opacity-80">
+            <address className="mt-3 text-sm not-italic opacity-75">
               {a.street && (
                 <>
                   {a.street}
@@ -51,11 +52,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide opacity-70">Services</p>
-          <ul className="mt-3 space-y-2 text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-60">Services</p>
+          <ul className="mt-4 space-y-2.5 text-sm">
             {config.services.map((s) => (
               <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="hover:underline">
+                <Link href={`/services/${s.slug}`} className="underline-offset-4 hover:underline">
                   {s.name}
                 </Link>
               </li>
@@ -64,8 +65,8 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide opacity-70">Service Areas</p>
-          <ul className="mt-3 space-y-2 text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-60">Service Areas</p>
+          <ul className="mt-4 space-y-2.5 text-sm opacity-90">
             {config.serviceAreas.map((area) => (
               <li key={area.slug}>
                 {area.name}, {config.primaryState}
@@ -77,9 +78,9 @@ export default function Footer() {
         <div>
           {(config.hours || config.hoursNote) && (
             <>
-              <p className="text-sm font-semibold uppercase tracking-wide opacity-70">Hours</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-60">Hours</p>
               {config.hours ? (
-                <ul className="mt-3 space-y-1 text-sm">
+                <ul className="mt-4 space-y-1.5 text-sm opacity-90">
                   {config.hours.map((h) => (
                     <li key={h.day} className="flex justify-between gap-4">
                       <span>{h.day}</span>
@@ -90,7 +91,7 @@ export default function Footer() {
                   ))}
                 </ul>
               ) : (
-                <p className="mt-3 text-sm">{config.hoursNote}</p>
+                <p className="mt-4 text-sm opacity-90">{config.hoursNote}</p>
               )}
             </>
           )}
@@ -98,7 +99,7 @@ export default function Footer() {
             <ul className="mt-6 flex flex-wrap gap-4 text-sm">
               {profiles.map(([key, url]) => (
                 <li key={key}>
-                  <a href={url} rel="noopener" target="_blank" className="underline-offset-2 hover:underline">
+                  <a href={url} rel="noopener" target="_blank" className="underline-offset-4 hover:underline">
                     {PROFILE_LABELS[key] ?? key}
                   </a>
                 </li>
@@ -107,13 +108,14 @@ export default function Footer() {
           )}
         </div>
       </div>
+
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs opacity-70 sm:px-6">
+        <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-5 text-xs opacity-70 sm:px-6">
           <p>
             &copy; {year} {config.legalName}
             {config.licenseNumber ? ` | ${config.licenseNumber}` : ''}
           </p>
-          <p className="flex gap-4">
+          <p className="flex gap-5">
             <Link href="/privacy-policy" className="hover:underline">
               Privacy Policy
             </Link>

@@ -35,6 +35,10 @@ export interface Theme {
    * 'full-bleed': client photo behind a dark scrim, headline and phone CTA
    * left-aligned in the lower third. Needs a photo that can carry it.
    * 'split': large photo one side, oversized type the other. For weaker photos.
+   *
+   * With config.images.hero null, neither can run and Hero falls back to its
+   * type-led variant on its own. This value is what the hero becomes the moment
+   * a hero photo is added to config, with no code change.
    */
   heroVariant: HeroVariant
   /** The ONE corner radius for the site, in rem. 0 for hard edges. */
@@ -43,26 +47,34 @@ export interface Theme {
   shadow: string
 }
 
-// Shipped default follows the "Cultivated" direction for the lawn-care sample:
-// deep green, warm off-white, one muted cedar accent, serif display (app/fonts.ts).
+/**
+ * Direction: Showroom, built to run with no photography.
+ *
+ * Remodeling and ADU work is the Showroom direction in AGENT.md, where the
+ * photographs normally do all the work. This client has none yet, so the weight
+ * moves to type, hard edges, and a near-black ground: squared corners, no
+ * shadows, heavy rules between sections, and one burnt-orange accent that reads
+ * as construction without using safety orange. Nothing here is waiting for an
+ * image to make sense of it.
+ */
 const theme: Theme = {
   palette: {
-    primary: '#1E3D2C',
-    primaryDark: '#152B1F',
-    primarySoft: '#E9EFE8',
-    accent: '#A8623A',
-    accentDark: '#8B4E2C',
-    bg: '#F6F3EC',
-    surface: '#FDFBF7',
-    ink: '#1A1F1B',
-    muted: '#5C6660',
-    line: '#DCD8CE',
-    onPrimary: '#F6F3EC',
-    onAccent: '#F6F3EC',
+    primary: '#262522',
+    primaryDark: '#151412',
+    primarySoft: '#EAE5DC',
+    accent: '#B2541C',
+    accentDark: '#8E4215',
+    bg: '#F5F2EB',
+    surface: '#FCFAF5',
+    ink: '#1E1D1A',
+    muted: '#625D55',
+    line: '#DAD3C7',
+    onPrimary: '#F5F2EB',
+    onAccent: '#FCFAF5',
   },
   heroVariant: 'full-bleed',
-  radius: 0.375,
-  shadow: '0 1px 2px rgb(20 30 24 / 0.08)',
+  radius: 0,
+  shadow: 'none',
 }
 
 export default theme
