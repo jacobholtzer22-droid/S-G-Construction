@@ -61,6 +61,26 @@ export async function loadContent(
     options: {
       parseFrontmatter: true,
       scope: { config, ...scope },
+      /**
+       * next-mdx-remote 6 blocks JavaScript expressions in MDX by default
+       * (blockJS defaults to true), and it does it by REMOVING them rather than
+       * erroring. Left on, every {config.*} in content/ would silently render as
+       * nothing, which would quietly drop the license number from six pages.
+       * California requires that number in contractor advertising, so a silent
+       * blank is the worst possible failure here.
+       *
+       * The content in content/ is written by us, lives in this repo, and is
+       * compiled at build time. No user input reaches it: the only runtime input
+       * on this site is the contact form, which POSTs to the platform and is
+       * never rendered back.
+       *
+       * blockDangerousJS stays on (it is also the default, set explicitly so the
+       * security posture is visible here and survives a future default change).
+       * It blocks eval, Function, process, require and other globals that could
+       * lead to RCE if an expression ever did come from somewhere untrusted.
+       */
+      blockJS: false,
+      blockDangerousJS: true,
     },
   })
   return { content, frontmatter: frontmatter ?? {} }
