@@ -261,15 +261,14 @@ const siteConfig = {
   },
 
   /**
-   * NOT YET KNOWN. No domain has been registered.
+   * The canonical origin. www is the primary host and the apex 308s to it, so
+   * this carries the www. Origin only: no path, no trailing slash.
    *
-   * `.invalid` is the reserved TLD for exactly this (RFC 2606), so it can never
-   * resolve to a real host. Canonicals, the sitemap, robots.txt, and every
-   * schema URL are built from this one value, so they are all consistent and
-   * all obviously unset. Replace it with the real origin, including www. if www
-   * is the primary host, before launch.
+   * Canonicals, the sitemap, robots.txt, llms.txt, the OG url and every schema
+   * url are all built from this one value, so there is exactly one place a host
+   * is written down and they cannot drift apart.
    */
-  domain: 'https://domain-not-set.invalid',
+  domain: 'https://www.sandgconstruction.com',
 } satisfies SiteConfigInput
 
 export default siteConfig

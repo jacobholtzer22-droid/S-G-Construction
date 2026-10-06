@@ -9,7 +9,7 @@ Build date: 2026-10-05. Branch: `initial-build`.
 
 ---
 
-## 1. Blockers (the site cannot be built or launched until these are done)
+## 1. Blockers (both now resolved)
 
 ### Business slug
 
@@ -23,13 +23,15 @@ and confirm the lead lands on the right Business row.
 
 ### Domain
 
-`site.config.ts` -> `domain` is `https://domain-not-set.invalid`. `.invalid` is
-the reserved TLD for placeholders, so it can never resolve.
+DONE. `site.config.ts` -> `domain` is `https://www.sandgconstruction.com`.
 
-Canonicals, `sitemap.xml`, `robots.txt`, `llms.txt` and every schema URL are all
-built from this one value, so they are currently consistent and all obviously
-unset. Replace it with the real origin including `https://` and, if www is the
-primary host, the `www.`. No trailing slash, no path.
+www is the canonical host and the apex 308s to it. Canonicals, `sitemap.xml`,
+`robots.txt`, `llms.txt`, the OG url and every schema url are built from that
+one value, so there is exactly one place a host is written down.
+
+DNS is hosted at the registrar (Namecheap nameservers), not at Vercel: the apex
+is an A record to Vercel's anycast address and www is a CNAME to Vercel. If the
+site ever needs to move, those two records are what change.
 
 ---
 
