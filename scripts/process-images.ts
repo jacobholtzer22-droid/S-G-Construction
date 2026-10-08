@@ -19,7 +19,10 @@ const ROOT = process.cwd()
 const ORIGINALS = path.join(ROOT, 'public/images/originals')
 const PROCESSED = path.join(ROOT, 'public/images/processed')
 const MANIFEST = path.join(ROOT, 'public/images/manifest.json')
-const WIDTHS = [640, 1024, 1920]
+// 1600 rather than 1920: at 1920 the high-detail textures (wire lath, OSB
+// sheathing) encode past 500 KB, and a single served image over 400 KB is not
+// worth the extra sharpness on the widest screens.
+const WIDTHS = [640, 1024, 1600]
 const QUALITY = 82
 const EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.tif', '.tiff', '.avif', '.gif'])
 

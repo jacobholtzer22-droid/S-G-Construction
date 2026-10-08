@@ -136,6 +136,19 @@ export const siteConfigSchema = z
           priceNote: z.string().nullable(),
           /** Filename in public/images/originals to use as the page image, or null. */
           image: z.string().nullable(),
+          /**
+           * Wide lead photo under the H1. Only a photo that unmistakably shows
+           * THIS service belongs here.
+           */
+          banner: z.string().nullable().default(null),
+          /** Small grid of this kind of work, partway down. Same rule. */
+          photos: z.array(z.string()).default([]),
+          /**
+           * Full-width band for a service with no photo of its own yet. Shown
+           * under a neutral "Recent work" heading, so nothing claims to be
+           * this service.
+           */
+          recentWorkBand: z.string().nullable().default(null),
           faqs: z.array(faq).min(3).max(6),
         }),
       )
@@ -224,11 +237,26 @@ export const siteConfigSchema = z
       )
       .default([]),
 
+    /**
+     * object-position per photo, chosen by looking at the file. Lives here
+     * rather than in the manifest because `npm run images` rewrites the
+     * manifest and only carries `alt` across.
+     */
+    imageFocus: z.record(z.string()).default({}),
+
     /** Which processed images go where. Filenames are keys in public/images/manifest.json. */
     images: z.object({
       hero: z.string().nullable(),
       about: z.string().nullable(),
       gallery: z.array(z.string()).default([]),
+      /** Homepage: photo beside text. */
+      homeSplit: z.string().nullable().default(null),
+      /** Homepage: "Recent work" strip linking to /gallery. */
+      homeStrip: z.array(z.string()).default([]),
+      /** Services index: photo beside text. */
+      servicesIndex: z.string().nullable().default(null),
+      /** Contact: photo beside the form. */
+      contact: z.string().nullable().default(null),
     }),
 
     /** Full origin including https:// and www. when www is the primary host. No trailing slash. */

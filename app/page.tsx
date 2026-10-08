@@ -5,6 +5,8 @@ import CtaBand from '@/components/CtaBand'
 import FaqAccordion from '@/components/FaqAccordion'
 import Gallery from '@/components/Gallery'
 import Hero from '@/components/Hero'
+import PhotoSplit from '@/components/PhotoSplit'
+import RecentWork from '@/components/RecentWork'
 import JsonLd from '@/components/JsonLd'
 import Reviews from '@/components/Reviews'
 import ServiceGrid from '@/components/ServiceGrid'
@@ -37,6 +39,16 @@ export default async function HomePage() {
       </div>
       <article className="mx-auto max-w-page px-4 pt-6 sm:px-6 [&>*]:max-w-prose">{content}</article>
       <ServiceGrid />
+      {/* Photo beside text, so the page stops being heading-over-paragraph the
+          whole way down. The heading is the service name; no new claim. */}
+      <PhotoSplit
+        image={config.images.homeSplit}
+        heading="ADU construction"
+        href="/services/adu-construction"
+        linkLabel="See ADU construction"
+        flip
+      />
+      <RecentWork images={config.images.homeStrip} />
       <Gallery />
       <Reviews />
       <AreaList />

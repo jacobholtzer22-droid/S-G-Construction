@@ -63,6 +63,9 @@ const siteConfig = {
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
       image: 'adu-interior-finished.jpg',
+      banner: 'adu-exterior-finished.jpg',
+      photos: ['adu-roof-sheathing.jpg', 'adu-exterior-sheathing.jpg', 'adu-lath-before-stucco.jpg'],
+      recentWorkBand: null,
       faqs: [
         {
           q: 'What is an ADU?',
@@ -90,6 +93,11 @@ const siteConfig = {
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
       image: null,
+      banner: null,
+      photos: [],
+      // No photo shows a whole-house remodel, so this is a neutral band of real
+      // S&G work. It does not claim to be a full home remodel.
+      recentWorkBand: 'adu-lath-before-stucco.jpg',
       faqs: [
         {
           q: 'What counts as a full home remodel?',
@@ -117,6 +125,10 @@ const siteConfig = {
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
       image: null,
+      banner: null,
+      photos: [],
+      // Same: no kitchen photo exists yet, so this is neutral real work.
+      recentWorkBand: 'adu-interior-framing.jpg',
       faqs: [
         {
           q: 'What does a kitchen remodel usually involve?',
@@ -143,7 +155,10 @@ const siteConfig = {
         'Bathroom remodels for homes, including tile, vanities, tubs and showers, and reworking a layout that no longer fits the room.',
       priceFrom: null,
       priceNote: 'quoted after a free estimate',
-      image: 'bathroom-walk-in-shower.jpg',
+      image: 'adu-bathroom-finished.jpg',
+      banner: 'bathroom-walk-in-shower.jpg',
+      photos: [],
+      recentWorkBand: null,
       faqs: [
         {
           q: 'What does a bathroom remodel include?',
@@ -254,10 +269,38 @@ const siteConfig = {
    * full-dark band in the service-area section. Naming files here turns the
    * homepage band on with no code change.
    */
+  /**
+   * object-position per photo, picked by looking at each file: it keeps the
+   * subject in frame when a wide crop or a tall crop throws away the edges.
+   */
+  imageFocus: {
+    'adu-exterior-finished.jpg': '30% 50%',
+    'adu-interior-finished.jpg': '55% 50%',
+    'adu-roof-sheathing.jpg': '50% 45%',
+    'adu-exterior-sheathing.jpg': '40% 55%',
+    'adu-lath-before-stucco.jpg': '45% 50%',
+    'adu-interior-framing.jpg': '50% 45%',
+    'bathroom-walk-in-shower.jpg': '50% 40%',
+    'adu-bathroom-finished.jpg': '50% 45%',
+    'home-exterior-new-stucco.jpg': '50% 32%',
+  },
+
   images: {
     hero: 'adu-exterior-finished.jpg',
     about: 'adu-interior-framing.jpg',
     gallery: [],
+    homeSplit: 'adu-interior-finished.jpg',
+    // Order matters: tile 1 is the big 2x2, tiles 2 and 3 are the narrow right
+    // column (so the two portrait photos go there), tile 4 spans the full width
+    // and wants a landscape.
+    homeStrip: [
+      'adu-roof-sheathing.jpg',
+      'bathroom-walk-in-shower.jpg',
+      'adu-bathroom-finished.jpg',
+      'adu-exterior-sheathing.jpg',
+    ],
+    servicesIndex: 'home-exterior-new-stucco.jpg',
+    contact: 'home-exterior-new-stucco.jpg',
   },
 
   /**

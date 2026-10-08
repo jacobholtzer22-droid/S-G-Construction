@@ -7,13 +7,21 @@ interface ImgProps {
   /** CSS sizes hint for the browser. */
   sizes?: string
   priority?: boolean
+  /** object-position, e.g. "30% 50%". Comes from config.imageFocus. */
+  focus?: string | null
 }
 
 /**
  * Renders a processed image with its srcset and the alt text from the manifest.
  * getImage throws at build for an unknown file or a missing alt.
  */
-export default function Img({ name, className = '', sizes = '(min-width: 1024px) 50vw, 100vw', priority = false }: ImgProps) {
+export default function Img({
+  name,
+  className = '',
+  sizes = '(min-width: 1024px) 50vw, 100vw',
+  priority = false,
+  focus,
+}: ImgProps) {
   const img = getImage(name)
   return (
     <img
@@ -26,6 +34,7 @@ export default function Img({ name, className = '', sizes = '(min-width: 1024px)
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       className={className}
+      {...(focus ? { style: { objectPosition: focus } } : {})}
     />
   )
 }

@@ -3,6 +3,7 @@ import ContactDetails from '@/components/ContactDetails'
 import ContactForm from '@/components/ContactForm'
 import JsonLd from '@/components/JsonLd'
 import PageHeader from '@/components/PageHeader'
+import PhotoBand from '@/components/PhotoBand'
 import { config } from '@/lib/config'
 import { loadContent, readFrontmatter } from '@/lib/content'
 import { breadcrumbList } from '@/lib/schema'
@@ -33,6 +34,9 @@ export default async function ContactPage() {
         <aside>
           <ContactDetails />
         </aside>
+      </div>
+      <div className="mt-16">
+        <PhotoBand image={config.images.contact} height="short" />
       </div>
     </>
   )
