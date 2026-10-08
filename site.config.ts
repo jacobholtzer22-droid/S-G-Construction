@@ -97,7 +97,7 @@ const siteConfig = {
       photos: [],
       // No photo shows a whole-house remodel, so this is a neutral band of real
       // S&G work. It does not claim to be a full home remodel.
-      recentWorkBand: 'adu-lath-before-stucco.jpg',
+      recentWorkBand: 'home-exterior-new-stucco.jpg',
       faqs: [
         {
           q: 'What counts as a full home remodel?',
@@ -290,17 +290,17 @@ const siteConfig = {
     about: 'adu-interior-framing.jpg',
     gallery: [],
     homeSplit: 'adu-interior-finished.jpg',
-    // Order matters: tile 1 is the big 2x2, tiles 2 and 3 are the narrow right
-    // column (so the two portrait photos go there), tile 4 spans the full width
-    // and wants a landscape.
+    // Order drives the grid cells: tile 1 is the tall lead (finished work, and
+    // portrait suits the shape), tiles 2 and 3 are the two small cells, tile 4
+    // spans two columns underneath.
     homeStrip: [
-      'adu-roof-sheathing.jpg',
       'bathroom-walk-in-shower.jpg',
-      'adu-bathroom-finished.jpg',
+      'adu-roof-sheathing.jpg',
       'adu-exterior-sheathing.jpg',
+      'adu-bathroom-finished.jpg',
     ],
     servicesIndex: 'home-exterior-new-stucco.jpg',
-    contact: 'home-exterior-new-stucco.jpg',
+    contact: 'adu-lath-before-stucco.jpg',
   },
 
   /**

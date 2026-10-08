@@ -37,39 +37,40 @@ export default function RecentWork({
           </div>
         </Reveal>
 
-        <div className="mt-10 grid auto-rows-[minmax(0,1fr)] gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {images.map((name, i) => {
-            // Four photos fill a three-column grid exactly when the first takes
-            // 2x2 and the last takes the full width: 4 + 1 + 1 + 3 = 9 cells.
-            const lead = i === 0
-            const wide = i === 3 && images.length === 4
-            const span = lead ? 'sm:col-span-2 sm:row-span-2' : wide ? 'sm:col-span-2 lg:col-span-3' : ''
+            // Four photos fill the grid exactly with no hole:
+            //   sm (2 cols): lead spans both rows in column one, two small
+            //                cells stack beside it, the last spans the width
+            //   lg (3 cols): lead spans both rows, the two small cells sit on
+            //                the top row, the last spans the remaining two
+            // 2 + 1 + 1 + 2 = 6 cells either way. The lead is tall, which is
+            // why a portrait photograph belongs there.
+            const four = images.length === 4
+            const lead = i === 0 && four
+            const wide = i === 3 && four
+            const span = lead ? 'row-span-2' : wide ? 'col-span-2' : ''
+            const box = lead
+              ? 'aspect-[3/4] h-full sm:aspect-auto'
+              : wide
+                ? 'aspect-[16/7]'
+                : 'aspect-[4/3]'
             return (
-            <Reveal key={name} delay={i * 70} className={span}>
-              <Link
-                href="/gallery"
-                className="group block h-full overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                <div
-                  className={
-                    lead
-                      ? 'aspect-[4/3] h-full sm:aspect-auto'
-                      : wide
-                        ? 'aspect-[16/7]'
-                        : // stretch to the row height so the narrow column has
-                          // no gaps beside the 2x2 lead tile
-                          'aspect-[4/3] h-full sm:aspect-auto'
-                  }
+              <Reveal key={name} delay={i * 70} className={span}>
+                <Link
+                  href="/gallery"
+                  className="group block h-full overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
-                  <Img
-                    name={name}
-                    focus={config.imageFocus[name] ?? null}
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                </div>
-              </Link>
-            </Reveal>
+                  <div className={box}>
+                    <Img
+                      name={name}
+                      focus={config.imageFocus[name] ?? null}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                </Link>
+              </Reveal>
             )
           })}
         </div>
