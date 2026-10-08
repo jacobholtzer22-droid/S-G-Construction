@@ -28,3 +28,64 @@
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Motion. Two rules only: reveal on scroll, and a slow hero zoom.
+
+   Everything here is gated on `html.js`, a class set by a one-line inline
+   script in app/layout.tsx. With JavaScript off the class never appears, these
+   rules never match, and every section renders visible at full opacity. The
+   hero headline, phone number and estimate button are never given .reveal, so
+   they can never be delayed by a script.
+
+   prefers-reduced-motion switches all of it off.
+--------------------------------------------------------------------------- */
+
+@layer utilities {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .js .reveal[data-shown='true'] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  /* Hero photograph: 5% over 10s, once, settling at the end. */
+  .js .hero-zoom {
+    animation: hero-zoom 10s cubic-bezier(0.33, 0, 0.2, 1) forwards;
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.05);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal[data-shown='true'] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .js .hero-zoom {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -55,7 +55,13 @@ export default function Hero() {
             portrait, so cover crops horizontally and a centred crop lands on
             whatever happens to be mid-frame. On desktop the crop is vertical
             only and this value has no effect. */}
-        <Img name={hero} priority sizes="100vw" className="absolute inset-0 z-0 h-full w-full object-cover object-[30%_50%]" />
+        <Img
+          name={hero}
+          priority
+          focus={config.imageFocus[hero] ?? null}
+          sizes="100vw"
+          className="hero-zoom absolute inset-0 z-0 h-full w-full object-cover"
+        />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-[1]"

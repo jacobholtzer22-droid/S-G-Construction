@@ -39,6 +39,15 @@ const cssVars = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`} style={cssVars}>
+      <head>
+        {/*
+          Adds `js` to <html> before first paint. Every motion rule in
+          globals.css is scoped to `html.js`, so with JavaScript off nothing is
+          hidden and the whole page renders plainly. Inline and tiny on purpose:
+          a deferred script would let the hidden state flash.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="flex min-h-screen flex-col pb-16 md:pb-0">
         <a
           href="#main"
