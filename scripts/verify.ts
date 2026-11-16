@@ -468,6 +468,44 @@ async function run() {
     record(17, 'every internal link resolves to a built route', problems.size === 0, [...problems].slice(0, 8).join('; '))
   }
 
+  // 22. The Google tag is on every page, and the form label on every page with the form.
+  //
+  // Only when config.tracking.googleAdsId is set: a site without the block
+  // records no check 22, so it stays at 21/21. The ads platform counts form
+  // and call conversions from this tag; a tag that silently fell out of the
+  // build reads as zero conversions and the campaign is judged on calls alone.
+  // The tag script and its label travel in the page's RSC payload as escaped
+  // text, so the built HTML is searched as text, not as parsed script tags.
+  {
+    const t = cfg?.tracking
+    if (t?.googleAdsId) {
+      const problems: string[] = []
+      const loader = `googletagmanager.com/gtag/js?id=${t.googleAdsId}`
+      const missing = pages.filter((p) => !p.html.includes(loader)).map((p) => p.route)
+      if (missing.length) problems.push(`no gtag loader for ${t.googleAdsId} on ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? ` and ${missing.length - 8} more` : ''}`)
+      if (t.conversions.form) {
+        const contact = pages.find((p) => p.route === '/contact')
+        if (!contact) problems.push('no /contact page to carry the form conversion')
+        else if (!contact.html.includes(t.conversions.form)) problems.push(`/contact does not carry the form conversion ${t.conversions.form}`)
+        // The form conversion fires wherever ContactForm is rendered, not only
+        // on /contact: client sites add the form to the homepage and elsewhere.
+        // GoogleTag watches for the thank-you as `main [role="status"]`, so on
+        // every page that renders the form, the form must sit inside <main>,
+        // the page must carry the label, and the tag script must not be
+        // narrowed to a route (the old /contact-only test lost every homepage
+        // conversion on Ronny-Prestige-Blinds without failing anything).
+        const formSel = `form[data-endpoint="${CONTACT_ENDPOINT}"]`
+        for (const p of pages.filter((pg) => pg.$(formSel).length > 0)) {
+          if (p.$(`main ${formSel}`).length === 0) problems.push(`${p.route}: the contact form is outside <main>, so its thank-you is never seen`)
+          if (!p.html.includes(t.conversions.form)) problems.push(`${p.route} renders the contact form but does not carry the form conversion ${t.conversions.form}`)
+          const tag = p.$('script#google-tag').html() ?? ''
+          if (/location\.pathname|location\.href/.test(tag)) problems.push(`${p.route} renders the contact form but the Google tag only fires the form conversion on some routes`)
+        }
+      }
+      record(22, `Google tag ${t.googleAdsId} on every page, form conversion where the form renders`, problems.length === 0, problems.slice(0, 8).join('; '))
+    }
+  }
+
   // ---------- report ----------
   results.sort((a, b) => a.id - b.id)
   const nameWidth = Math.max(...results.map((r) => r.name.length))
