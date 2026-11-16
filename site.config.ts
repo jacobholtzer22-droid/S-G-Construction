@@ -303,6 +303,11 @@ const siteConfig = {
     contact: 'adu-lath-before-stucco.jpg',
   },
 
+  tracking: {
+    googleAdsId: 'AW-18496348664',
+    conversions: { form: 'AW-18496348664/amooCJ3joJMdEPjD3_NE', call: 'AW-18496348664/E_IOCIr3oJMdEPjD3_NE' },
+  },
+
   /**
    * The canonical origin. www is the primary host and the apex 308s to it, so
    * this carries the www. Origin only: no path, no trailing slash.
