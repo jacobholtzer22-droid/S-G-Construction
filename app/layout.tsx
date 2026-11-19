@@ -48,6 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           a deferred script would let the hidden state flash.
         */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script defer src="https://www.alignandacquire.com/t/s/s-g-construction-inc-1791227378131.js"></script>
       </head>
       <body className="flex min-h-screen flex-col pb-16 md:pb-0">
         <a
